@@ -1,20 +1,15 @@
+#mvn spring-boot:run
+
 spring:
   application:
     name: coworkly-api
 
-server:
-  port: 8080
 
-#  datasource:
-#    url: jdbc:postgresql://localhost:5432/coworkly
-#    username: postgres
-#    password: postgres
-#  jpa:
-#    hibernate:
-#      ddl-auto: validate
-#    open-in-view: false
-#
-#  flyway:
-#    enabled: true
-#    locations: classpath:db/migration
-#    baseline-on-migrate: true
+server:
+  port: ${SERVER_PORT:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info"
