@@ -24,10 +24,8 @@ Thumbs.db
 *.pid
 docker-compose.override.yml
 
-# Spring Boot (lokalne)
-application-*.yml
-application-*.properties
-
 # JetBrains HTTP
 httpRequests/
 
+# Local developer helpers
+docs/dev-local-cheatsheet.txt
