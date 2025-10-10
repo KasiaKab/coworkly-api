@@ -26,7 +26,7 @@ public class Booking {
     private Long id;
 
     @Column(nullable = false, length = 255)
-    private String customerEmail;
+    private String userEmail;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "resource_id", nullable = false,
