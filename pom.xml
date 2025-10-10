@@ -52,6 +52,13 @@
             <artifactId>flyway-core</artifactId>
         </dependency>
 
+        <!-- Driver-specific support -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-database-postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- Tests -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
