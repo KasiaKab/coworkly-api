@@ -17,6 +17,7 @@ public class TimeSlot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // The Resource data will be fetched from the database only when this field is actually used.
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "resource_id", nullable = false)
     private Resource resource;
