@@ -2,8 +2,7 @@ package com.coworkly.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "time_slot")
@@ -23,8 +22,8 @@ public class TimeSlot {
     private Resource resource;
 
     @Column(nullable = false)
-    private LocalDateTime start;
+    private OffsetDateTime start;
 
     @Column(nullable = false)
-    private LocalDateTime end;
+    private OffsetDateTime end;
 }
