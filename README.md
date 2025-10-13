@@ -1,6 +1,6 @@
 # Coworkly API
 
-**Coworkly** — coworking room booking system built as part of a **Java → DevOps → AWS learning roadmap (2025–2026)**.  
+**Coworkly** — coworking room booking system built as part of a **Java → DevOps → AWS learning roadmap (2025–2027)**.  
 Clean monolith first, cloud-ready later.
 
 ---
@@ -23,27 +23,27 @@ It starts as a **Spring Boot monolith** and will gradually evolve into a **cloud
 
 ## 🧱 Architecture Summary
 
-This project is part of my **Java → DevOps → AWS learning roadmap (2025–2026)**.  
+This project is part of my **Java → DevOps → AWS learning roadmap (2025–2027)**.  
 Each milestone expands the system with new architectural layers — from a clean Spring Boot monolith to a cloud-ready platform.
 
 You can follow all technical milestones and decisions here:  
-👉 [roadmap-2025-2026](https://github.com/KasiaKab/roadmap-2025-2026)
+👉 [roadmap-2025-2027](https://github.com/KasiaKab/roadmap-2025-2027)
 
 ---
 
 ## 🧩 Project Structure
 
 The project setup is in progress.  
-Folder layout and modules (booking, resource, user, admin) will be added during the **[M00 – Foundations](https://github.com/KasiaKab/roadmap-2025-2026/blob/main/milestones/m00-foundations.md)** phase.
+Folder layout and modules (booking, resource, user, admin) will be added during the **[M00 – Foundations](https://github.com/KasiaKab/roadmap-2025-2027/blob/main/milestones/m00-foundations.md)** phase.
 
 ---
 
 ## 🧾 Documentation
 
-- [`/decisions/`](https://github.com/KasiaKab/roadmap-2025-2026/tree/main/decisions) – Architecture Decision Records (ADRs)
-- [`/designs/`](https://github.com/KasiaKab/roadmap-2025-2026/tree/main/designs) – System and architecture diagrams
+- [`/decisions/`](https://github.com/KasiaKab/roadmap-2025-2027/tree/main/decisions) – Architecture Decision Records (ADRs)
+- [`/designs/`](https://github.com/KasiaKab/roadmap-2025-2027/tree/main/designs) – System and architecture diagrams
 
 ---
 
-**Last updated:** 2025-10-08  
-**Status:** `M00 – Week 1 (Foundations)`
+**Last updated:** 2025-10-13  
+**Status:** `M00 – Week 2 (Foundations)`
