@@ -1,8 +1,10 @@
 package com.coworkly.api.dto;
 
+import java.util.List;
+
 public record ResourceDto(
         Long id,
         String name,
         Integer capacity,
-        String features // comma-separated for v0
+        List<String> features
 ) {}
