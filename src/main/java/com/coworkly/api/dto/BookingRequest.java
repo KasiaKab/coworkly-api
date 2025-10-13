@@ -1,10 +1,10 @@
 package com.coworkly.api.dto;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 public record BookingRequest(
         Long resourceId,
-        LocalDateTime start,
-        LocalDateTime end,
+        OffsetDateTime start,
+        OffsetDateTime end,
         String email // optional for v0
 ) {}

@@ -1,11 +1,11 @@
 package com.coworkly.api.dto;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 public record BookingResponse(
         Long id,
         Long resourceId,
-        LocalDateTime start,
-        LocalDateTime end,
-        String status
+        OffsetDateTime start,
+        OffsetDateTime end,
+        String status  // "BOOKED" / "CANCELLED"
 ) {}
