@@ -4,5 +4,6 @@ import java.time.OffsetDateTime;
 
 public record AvailabilitySlotDto(
         OffsetDateTime start,
-        OffsetDateTime end
+        OffsetDateTime end,
+        boolean available
 ) {}
