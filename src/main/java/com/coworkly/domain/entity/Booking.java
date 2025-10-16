@@ -38,8 +38,15 @@ public class Booking {
             foreignKey = @ForeignKey(name = "fk_booking_time_slot"))
     private TimeSlot timeSlot;
 
+    @Column(name = "start_at", nullable = false)
+    private OffsetDateTime startAt;
+
+    @Column(name = "end_at", nullable = false)
+    private OffsetDateTime endAt;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 20)
-    private String status;
+    private BookingStatus status;
 
     @Column(name = "created_at", nullable = false)
     private String createdAt;
