@@ -1,7 +1,8 @@
 package com.coworkly.repository;
 
-import com.coworkly.entity.Booking;
-import com.coworkly.entity.Resource;
+import com.coworkly.domain.entity.Booking;
+import com.coworkly.domain.entity.Resource;
+import com.coworkly.domain.repository.BookingRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
