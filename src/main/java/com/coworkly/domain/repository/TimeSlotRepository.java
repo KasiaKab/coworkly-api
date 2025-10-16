@@ -1,6 +1,6 @@
-package com.coworkly.repository;
+package com.coworkly.domain.repository;
 
-import com.coworkly.entity.TimeSlot;
+import com.coworkly.domain.entity.TimeSlot;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.OffsetDateTime;

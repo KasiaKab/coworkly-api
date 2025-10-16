@@ -1,4 +1,4 @@
-package com.coworkly.entity;
+package com.coworkly.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -33,11 +33,10 @@ public class Booking {
             foreignKey = @ForeignKey(name = "fk_booking_resource"))
     private Resource resource;
 
-    @Column(name = "start_at", nullable = false)
-    private OffsetDateTime startAt;
-
-    @Column(name = "end_at", nullable = false)
-    private OffsetDateTime endAt;
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "time_slot_id", nullable = false, unique = true,
+            foreignKey = @ForeignKey(name = "fk_booking_time_slot"))
+    private TimeSlot timeSlot;
 
     @Column(name = "status", nullable = false, length = 20)
     private String status;

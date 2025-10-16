@@ -1,6 +1,6 @@
-package com.coworkly.repository;
+package com.coworkly.domain.repository;
 
-import com.coworkly.entity.Resource;
+import com.coworkly.domain.entity.Resource;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

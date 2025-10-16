@@ -1,4 +1,4 @@
-package com.coworkly.entity;
+package com.coworkly.domain.entity;
 
 public enum BookingStatus {
     BOOKED,

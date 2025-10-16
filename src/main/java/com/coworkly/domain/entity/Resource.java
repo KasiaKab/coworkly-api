@@ -1,4 +1,4 @@
-package com.coworkly.entity;
+package com.coworkly.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

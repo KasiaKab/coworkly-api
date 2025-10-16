@@ -1,4 +1,4 @@
-package com.coworkly.entity;
+package com.coworkly.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,4 +26,7 @@ public class TimeSlot {
 
     @Column(nullable = false)
     private OffsetDateTime end;
+
+    @OneToOne(mappedBy = "timeSlot", fetch = FetchType.LAZY)
+    private Booking booking;
 }
