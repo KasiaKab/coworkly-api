@@ -3,6 +3,7 @@ package com.coworkly.app.service;
 import com.coworkly.app.exception.NotFoundException;
 import com.coworkly.app.exception.SlotAlreadyBookedException;
 import com.coworkly.domain.entity.Booking;
+import com.coworkly.domain.entity.BookingStatus;
 import com.coworkly.domain.repository.BookingRepository;
 import com.coworkly.domain.repository.ResourceRepository;
 import com.coworkly.domain.repository.TimeSlotRepository;
@@ -35,8 +36,12 @@ public class BookingService {
         }
 
         // Check if the time slot is already booked
-        if (bookingRepository.existsById(timeSlotId)) {
+        if (bookingRepository.existsByTimeSlotId(timeSlotId)) {
             throw new SlotAlreadyBookedException(timeSlotId);
+        }
+
+        if (booking.getStatus() == null) {
+            booking.setStatus(BookingStatus.BOOKED);
         }
 
         return bookingRepository.save(booking);
