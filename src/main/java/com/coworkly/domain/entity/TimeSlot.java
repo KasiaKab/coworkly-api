@@ -22,10 +22,10 @@ public class TimeSlot {
     private Resource resource;
 
     @Column(nullable = false)
-    private OffsetDateTime start;
+    private OffsetDateTime startAt;
 
     @Column(nullable = false)
-    private OffsetDateTime end;
+    private OffsetDateTime endAt;
 
     @OneToOne(mappedBy = "timeSlot", fetch = FetchType.LAZY)
     private Booking booking;

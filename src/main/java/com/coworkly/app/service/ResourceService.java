@@ -43,7 +43,7 @@ public class ResourceService {
         OffsetDateTime endOfDay = startOfDay.plusDays(1);
 
         List<TimeSlot> slots = timeSlotRepository
-                .findAllByResourceIdAndStartBetween(resourceId, startOfDay, endOfDay);
+                .findAllByResourceIdAndStartAtBetween(resourceId, startOfDay, endOfDay);
 
         return slots.stream()
                 .filter(slot -> slot.getBooking() == null) // Only available slots

@@ -4,7 +4,8 @@ import java.time.OffsetDateTime;
 
 public record BookingRequest(
         Long resourceId,
-        OffsetDateTime start,
-        OffsetDateTime end,
+        Long timeSlotId,
+        OffsetDateTime startAt,
+        OffsetDateTime endAt,
         String email // optional for v0
 ) {}

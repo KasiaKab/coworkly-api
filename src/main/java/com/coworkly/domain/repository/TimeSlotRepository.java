@@ -7,5 +7,5 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 public interface TimeSlotRepository extends JpaRepository<TimeSlot, Long> {
-    List<TimeSlot> findAllByResourceIdAndStartBetween(Long resourceId, OffsetDateTime dayStart, OffsetDateTime dayEnd);
+    List<TimeSlot> findAllByResourceIdAndStartAtBetween(Long resourceId, OffsetDateTime dayStart, OffsetDateTime dayEnd);
 }

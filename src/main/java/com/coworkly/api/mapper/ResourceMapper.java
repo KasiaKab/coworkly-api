@@ -1,7 +1,7 @@
 package com.coworkly.api.mapper;
 
 import com.coworkly.api.dto.ResourceDto;
-import com.coworkly.entity.Resource;
+import com.coworkly.domain.entity.Resource;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import java.util.Arrays;

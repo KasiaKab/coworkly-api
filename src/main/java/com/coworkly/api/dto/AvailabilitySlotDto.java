@@ -3,7 +3,7 @@ package com.coworkly.api.dto;
 import java.time.OffsetDateTime;
 
 public record AvailabilitySlotDto(
-        OffsetDateTime start,
-        OffsetDateTime end,
+        OffsetDateTime startAt,
+        OffsetDateTime endAt,
         boolean available
 ) {}

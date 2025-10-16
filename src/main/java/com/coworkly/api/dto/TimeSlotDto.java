@@ -6,6 +6,6 @@ import java.time.OffsetDateTime;
 public record TimeSlotDto(
         Long id,
         Long resourceId,
-        OffsetDateTime start,
-        OffsetDateTime end
+        OffsetDateTime startAt,
+        OffsetDateTime endAt
 ) {}

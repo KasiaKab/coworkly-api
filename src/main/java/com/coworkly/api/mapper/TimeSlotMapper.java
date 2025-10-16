@@ -1,8 +1,8 @@
 package com.coworkly.api.mapper;
 
 import com.coworkly.api.dto.TimeSlotDto;
-import com.coworkly.entity.Resource;
-import com.coworkly.entity.TimeSlot;
+import com.coworkly.domain.entity.Resource;
+import com.coworkly.domain.entity.TimeSlot;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -21,8 +21,8 @@ public final class TimeSlotMapper {
         return new TimeSlotDto(
                 entity.getId(),
                 resourceId,
-                entity.getStart(),
-                entity.getEnd()
+                entity.getStartAt(),
+                entity.getEndAt()
         );
     }
 
@@ -32,8 +32,8 @@ public final class TimeSlotMapper {
         return TimeSlot.builder()
                 .id(dto.id())
                 .resource(resource)
-                .start(dto.start())
-                .end(dto.end())
+                .startAt(dto.startAt())
+                .endAt(dto.endAt())
                 .build();
     }
 }

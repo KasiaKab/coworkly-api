@@ -5,7 +5,8 @@ import java.time.OffsetDateTime;
 public record BookingResponse(
         Long id,
         Long resourceId,
-        OffsetDateTime start,
-        OffsetDateTime end,
+        Long timeSlotId,
+        OffsetDateTime startAt,
+        OffsetDateTime endAt,
         String status  // "BOOKED" / "CANCELLED"
 ) {}
