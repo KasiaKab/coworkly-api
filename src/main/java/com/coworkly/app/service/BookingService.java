@@ -1,5 +1,6 @@
 package com.coworkly.app.service;
 
+import com.coworkly.api.dto.BookingRequest;
 import com.coworkly.app.exception.NotFoundException;
 import com.coworkly.app.exception.SlotAlreadyBookedException;
 import com.coworkly.domain.entity.Booking;
