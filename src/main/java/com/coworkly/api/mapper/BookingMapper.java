@@ -84,21 +84,29 @@ public final class BookingMapper {
     }
 
     // REQUEST -> ENTITY
-    public static Booking toEntity(BookingRequest request, Resource resource, TimeSlot timeSlot) {
+    public static Booking toEntity(BookingRequest request, Resource resource, TimeSlot entity) {
         if (request == null) return null;
 
         Booking booking = new Booking();
         booking.setUserEmail(request.email());
         booking.setResource(resource);
-        booking.setTimeSlot(timeSlot);
+        booking.setTimeSlot(entity);
 
-        if (timeSlot != null) {
-            booking.setStartAt(timeSlot.getStartAt());
-            booking.setEndAt(timeSlot.getEndAt());
+        if (entity != null) {
+            booking.setStartAt(entity.getStartAt());
+            booking.setEndAt(entity.getEndAt());
         }
 
         booking.setStatus(BookingStatus.BOOKED);
 
         return booking;
     }
+
+    // REQUEST -> ENTITY (with only IDs, without full entity references)
+    public static Booking toEntity(BookingRequest dto) {
+        Resource resourceRef = Resource.builder().id(dto.resourceId()).build();
+        TimeSlot slotRef     = TimeSlot.builder().id(dto.timeSlotId()).build();
+        return toEntity(dto, resourceRef, slotRef); // używa Twojej istniejącej metody (3 arg)
+    }
+
 }
