@@ -1,6 +1,5 @@
 package com.coworkly.app.service;
 
-import com.coworkly.api.dto.BookingRequest;
 import com.coworkly.app.exception.NotFoundException;
 import com.coworkly.app.exception.SlotAlreadyBookedException;
 import com.coworkly.domain.entity.Booking;
@@ -52,5 +51,25 @@ public class BookingService {
     @Transactional
     public Optional<Booking> findById(Long id) {
         return bookingRepository.findById(id);
+    }
+
+    // Look up an existing booking by Idempotency-Key.
+    public Optional<Booking> findByIdempotencyKey(String key) {
+        if (key == null || key.isBlank())
+            return Optional.empty();
+        return bookingRepository.findByIdempotencyKey(key);
+    }
+
+    // Create booking in an idempotent way.
+    @Transactional
+    public Booking createIdempotent(Booking booking, String idempotencyKey) {
+        // Return existing if the key was already used
+        var existing = findByIdempotencyKey(idempotencyKey);
+        if (existing.isPresent())
+            return existing.get();
+
+        // Set key on new booking and reuse existing validation flow
+        booking.setIdempotencyKey(idempotencyKey);
+        return create(booking);
     }
 }

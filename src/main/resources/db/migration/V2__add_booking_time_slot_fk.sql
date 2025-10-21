@@ -1,5 +1,4 @@
 -- V2__add_booking_time_slot_fk.sql
--- 1) CREATE TABLE time_slot (jeśli jeszcze nie ma)
 CREATE TABLE IF NOT EXISTS time_slot (
                                          id           BIGSERIAL PRIMARY KEY,
                                          resource_id  BIGINT       NOT NULL,
@@ -19,11 +18,11 @@ ALTER TABLE time_slot
 END IF;
 END $$;
 
--- pomocniczy indeks do zapytań po zasobie i starcie
+
 CREATE INDEX IF NOT EXISTS idx_time_slot_resource_start
     ON time_slot (resource_id, start_at);
 
--- 2) booking.time_slot_id + więzy zgodnie z encją
+
 ALTER TABLE booking
     ADD COLUMN IF NOT EXISTS time_slot_id BIGINT;
 

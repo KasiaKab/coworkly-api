@@ -52,6 +52,9 @@ public class Booking {
     @Column(name = "created_at", nullable = false)
     private OffsetDateTime createdAt;
 
+    @Column(name = "idempotency_key", unique = true, length = 64)
+    private String idempotencyKey;
+
     @PrePersist
     void prePersist() {
         if (status == null) {
