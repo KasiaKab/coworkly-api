@@ -2,6 +2,7 @@ package com.coworkly.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.OffsetDateTime;
 
@@ -49,5 +50,15 @@ public class Booking {
     private BookingStatus status;
 
     @Column(name = "created_at", nullable = false)
-    private String createdAt;
+    private OffsetDateTime createdAt;
+
+    @PrePersist
+    void prePersist() {
+        if (status == null) {
+            status = BookingStatus.BOOKED;
+        }
+        if (createdAt == null) {
+            createdAt = OffsetDateTime.now();
+        }
+    }
 }

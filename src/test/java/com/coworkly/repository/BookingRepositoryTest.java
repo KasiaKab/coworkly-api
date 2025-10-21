@@ -1,7 +1,9 @@
 package com.coworkly.repository;
 
 import com.coworkly.domain.entity.Booking;
+import com.coworkly.domain.entity.BookingStatus;
 import com.coworkly.domain.entity.Resource;
+import com.coworkly.domain.entity.TimeSlot;
 import com.coworkly.domain.repository.BookingRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +35,23 @@ class BookingRepositoryTest {
         entityManager.persist(resource);
 
         OffsetDateTime now = OffsetDateTime.now();
+        OffsetDateTime start = now.plusHours(1);
+        OffsetDateTime end   = now.plusHours(2);
+
+        TimeSlot slot = TimeSlot.builder()
+                .resource(resource)
+                .startAt(start)
+                .endAt(end)
+                .build();
+        entityManager.persist(slot);
 
         Booking booking = Booking.builder()
                 .userEmail("user1@coworkly.com")
                 .resource(resource)
-                .startAt(now.plusHours(1))
-                .endAt(now.plusHours(2))
-                .status("BOOKED")
-                .createdAt(now.toString())
+                .timeSlot(slot)
+                .startAt(start)
+                .endAt(end)
+                .status(BookingStatus.BOOKED)
                 .build();
 
         // when
@@ -51,8 +62,9 @@ class BookingRepositoryTest {
         Booking foundBooking = entityManager.find(Booking.class, savedBooking.getId());
         assertThat(foundBooking).isNotNull();
         assertThat(foundBooking.getUserEmail()).isEqualTo("user1@coworkly.com");
-        assertThat(foundBooking.getStatus()).isEqualTo("BOOKED");
+        assertThat(foundBooking.getStatus()).isEqualTo(BookingStatus.BOOKED);
         assertThat(foundBooking.getResource().getName()).isEqualTo("Focus Room");
+        assertThat(foundBooking.getTimeSlot().getId()).isEqualTo(slot.getId());
     }
 
     @Test
@@ -65,14 +77,23 @@ class BookingRepositoryTest {
         entityManager.persist(resource);
 
         OffsetDateTime now = OffsetDateTime.now();
+        OffsetDateTime start = now.plusHours(3);
+        OffsetDateTime end   = now.plusHours(4);
+
+        TimeSlot slot = TimeSlot.builder()
+                .resource(resource)
+                .startAt(start)
+                .endAt(end)
+                .build();
+        entityManager.persist(slot);
 
         Booking booking = Booking.builder()
                 .userEmail("user2@coworkly.com")
                 .resource(resource)
+                .timeSlot(slot)
                 .startAt(now.plusHours(3))
                 .endAt(now.plusHours(4))
-                .status("BOOKED")
-                .createdAt(now.toString())
+                .status(BookingStatus.BOOKED)
                 .build();
 
         Booking savedBooking = bookingRepository.save(booking);
@@ -85,6 +106,8 @@ class BookingRepositoryTest {
         var found = foundOption.get();
         assertThat(found.getUserEmail()).isEqualTo("user2@coworkly.com");
         assertThat(found.getResource().getName()).isEqualTo("Workshop Room");
+        assertThat(found.getTimeSlot().getId()).isEqualTo(slot.getId());
+        assertThat(found.getStatus()).isEqualTo(BookingStatus.BOOKED);
     }
 
 }
