@@ -21,24 +21,41 @@ public class BookingService {
     private final TimeSlotRepository timeSlotRepository;
     private final ResourceRepository resourceRepository;
 
-    // Returns a new booking if the time slot is available
+    /**
+     * Create a booking if the time slot is available.
+     * Business rules (M00):
+     *  - resource & timeSlot must exist
+     *  - timeSlot must belong to the given resource
+     *  - no active (BOOKED) booking may exist for that timeSlot
+     *  - start/end are derived from the timeSlot
+     */
     @Transactional
     public Booking create(Booking booking) {
         Long resourceId = booking.getResource().getId();
         Long timeSlotId = booking.getTimeSlot().getId();
 
-        // Validate resource and time slot existence
-        if (!resourceRepository.existsById(resourceId)) {
-            throw new NotFoundException("Resource not found: " + resourceId);
-        }
-        if (!timeSlotRepository.existsById(timeSlotId)) {
-            throw new NotFoundException("TimeSlot not found: " + timeSlotId);
+        // [A] Load MANAGED references (not transient stubs)
+        var resourceRef = resourceRepository.findById(resourceId)
+                .orElseThrow(() -> new NotFoundException("Resource not found: " + resourceId));
+
+        var slotRef = timeSlotRepository.findById(timeSlotId)
+                .orElseThrow(() -> new NotFoundException("TimeSlot not found: " + timeSlotId));
+
+        // [B] Validate ownership: slot must belong to the resource
+        if (!slotRef.getResource().getId().equals(resourceId)) {
+            throw new NotFoundException("TimeSlot " + timeSlotId + " does not belong to Resource " + resourceId);
         }
 
-        // Check if the time slot is already booked
-        if (bookingRepository.existsByTimeSlotId(timeSlotId)) {
-            throw new SlotAlreadyBookedException(timeSlotId);
+        // [C] Conflict only if there exists an ACTIVE booking for that slot
+        if (bookingRepository.existsByTimeSlotIdAndStatus(timeSlotId, BookingStatus.BOOKED)) {
+            throw new SlotAlreadyBookedException(timeSlotId); // handled as 409 in GlobalExceptionHandler
         }
+
+        // [D] Replace transient refs with managed and derive times from slot
+        booking.setResource(resourceRef);
+        booking.setTimeSlot(slotRef);
+        booking.setStartAt(slotRef.getStartAt());
+        booking.setEndAt(slotRef.getEndAt());
 
         if (booking.getStatus() == null) {
             booking.setStatus(BookingStatus.BOOKED);
@@ -47,28 +64,30 @@ public class BookingService {
         return bookingRepository.save(booking);
     }
 
-    // Returns a booking by its ID or empty optional if not found.
-    @Transactional
+    /** Find booking by id. */
+    @Transactional(readOnly = true)
     public Optional<Booking> findById(Long id) {
         return bookingRepository.findById(id);
     }
 
-    // Look up an existing booking by Idempotency-Key.
+    /** Find booking by Idempotency-Key (if present). */
+    @Transactional(readOnly = true)
     public Optional<Booking> findByIdempotencyKey(String key) {
-        if (key == null || key.isBlank())
-            return Optional.empty();
+        if (key == null || key.isBlank()) return Optional.empty();
         return bookingRepository.findByIdempotencyKey(key);
     }
 
-    // Create booking in an idempotent way.
+    /**
+     * Idempotent creation:
+     *  - if key already used → return existing booking
+     *  - otherwise set key and delegate to create(...)
+     */
     @Transactional
     public Booking createIdempotent(Booking booking, String idempotencyKey) {
-        // Return existing if the key was already used
         var existing = findByIdempotencyKey(idempotencyKey);
-        if (existing.isPresent())
+        if (existing.isPresent()) {
             return existing.get();
-
-        // Set key on new booking and reuse existing validation flow
+        }
         booking.setIdempotencyKey(idempotencyKey);
         return create(booking);
     }
