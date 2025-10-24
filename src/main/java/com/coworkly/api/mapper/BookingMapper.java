@@ -10,103 +10,67 @@ import com.coworkly.domain.entity.TimeSlot;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import java.time.OffsetDateTime;
-
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class BookingMapper {
 
-    // ENTITY -> DTO
+    // ENTITY -> DTO (safe for LAZY: times taken from Booking, not TimeSlot)
     public static BookingDto toDto(Booking entity) {
         if (entity == null) return null;
 
-        Long resourceId = null;
-        Long timeSlotId = null;
-        OffsetDateTime start = null;
-        OffsetDateTime end = null;
-        String status = null;
-
-        if (entity.getResource() != null) {
-            resourceId = entity.getResource().getId();
-        }
-        if (entity.getTimeSlot() != null) {
-            timeSlotId = entity.getTimeSlot().getId();
-            start = entity.getTimeSlot().getStartAt();
-            end = entity.getTimeSlot().getEndAt();
-        }
-
-        // ENUM -> STRING
-        if (entity.getStatus() != null) {
-            status = entity.getStatus().name();
-        }
+        Long resourceId = (entity.getResource() != null) ? entity.getResource().getId() : null;
+        Long timeSlotId = (entity.getTimeSlot() != null) ? entity.getTimeSlot().getId() : null;
+        String status   = (entity.getStatus() != null)   ? entity.getStatus().name()    : null;
 
         return new BookingDto(
                 entity.getId(),
                 resourceId,
                 timeSlotId,
-                start,
-                end,
+                entity.getStartAt(),
+                entity.getEndAt(),
                 status
         );
     }
 
-    // ENTITY -> RESPONSE
+    // ENTITY -> RESPONSE (safe for LAZY: times taken from Booking, not TimeSlot)
     public static BookingResponse toResponse(Booking entity) {
         if (entity == null) return null;
 
-        Long resourceId = null;
-        Long timeSlotId = null;
-        OffsetDateTime start = null;
-        OffsetDateTime end = null;
-        String status = null;
-
-        if (entity.getResource() != null) {
-            resourceId = entity.getResource().getId();
-        }
-        if (entity.getTimeSlot() != null) {
-            timeSlotId = entity.getTimeSlot().getId();
-            start = entity.getTimeSlot().getStartAt();
-            end = entity.getTimeSlot().getEndAt();
-        }
-
-        // ENUM -> STRING
-        if (entity.getStatus() != null) {
-            status = entity.getStatus().name();
-        }
+        Long resourceId = (entity.getResource() != null) ? entity.getResource().getId() : null;
+        Long timeSlotId = (entity.getTimeSlot() != null) ? entity.getTimeSlot().getId() : null;
+        String status   = (entity.getStatus() != null)   ? entity.getStatus().name()    : null;
 
         return new BookingResponse(
                 entity.getId(),
                 resourceId,
                 timeSlotId,
-                start,
-                end,
+                entity.getStartAt(),
+                entity.getEndAt(),
                 status
         );
     }
 
-    // REQUEST -> ENTITY
-    public static Booking toEntity(BookingRequest request, Resource resource, TimeSlot entity) {
+    // REQUEST -> ENTITY (with managed references supplied by service)
+    public static Booking toEntity(BookingRequest request, Resource resource, TimeSlot slot) {
         if (request == null) return null;
 
         Booking booking = new Booking();
         booking.setUserEmail(request.email());
         booking.setResource(resource);
-        booking.setTimeSlot(entity);
+        booking.setTimeSlot(slot);
 
-        if (entity != null) {
-            booking.setStartAt(entity.getStartAt());
-            booking.setEndAt(entity.getEndAt());
+        if (slot != null) {
+            booking.setStartAt(slot.getStartAt());
+            booking.setEndAt(slot.getEndAt());
         }
 
         booking.setStatus(BookingStatus.BOOKED);
-
         return booking;
     }
 
-    // REQUEST -> ENTITY (with only IDs, without full entity references)
+    // REQUEST -> ENTITY (IDs only; service SHOULD replace with managed refs before save)
     public static Booking toEntity(BookingRequest dto) {
         Resource resourceRef = Resource.builder().id(dto.resourceId()).build();
         TimeSlot slotRef     = TimeSlot.builder().id(dto.timeSlotId()).build();
-        return toEntity(dto, resourceRef, slotRef); // używa Twojej istniejącej metody (3 arg)
+        return toEntity(dto, resourceRef, slotRef);
     }
-
 }
