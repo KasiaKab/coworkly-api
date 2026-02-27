@@ -1,0 +1,26 @@
+%% Coworkly — API Contract Diagram
+%% File: designs/api-contract.mmd
+
+flowchart TB
+    APP["Coworkly API"]
+
+    subgraph USER["User"]
+        direction TB
+        U_GET["GET\n/resources\n/resources/{resourceId}/availability?date=\n/bookings/{id}"]
+        U_POST["POST\n/bookings\n(Idempotency-Key header)"]
+        U_DELETE["DELETE\n/bookings/{id} – planned"]
+        U_PATCH["PATCH\n/bookings/{id}/cancel – planned"]
+        U_GET2["GET\n/resources/{id} – planned"]
+    end
+
+    subgraph AUTH["Auth"]
+        direction TB
+        A_POST["POST\n/auth/register – planned\n/auth/login – planned"]
+    end
+
+    APP --> U_GET
+    APP --> U_POST
+    APP --> U_DELETE
+    APP --> U_PATCH
+    APP --> U_GET2
+    APP --> A_POST

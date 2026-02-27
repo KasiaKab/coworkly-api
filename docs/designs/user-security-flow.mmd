@@ -1,0 +1,29 @@
+%% User Security Flow – JWT Baseline
+%% File: designs/user-security-flow.mmd
+%% Status: PLANNED – implementation in progress (see ADR-004, ADR-006)
+
+flowchart TD
+    U[User] --> REG[POST /auth/register]
+    REG --> USR[UserService save user]
+    USR --> DB[PostgreSQL]
+    REG --> UOK1[201 Created]
+
+    U --> LOG[POST /auth/login]
+    LOG --> USR2[UserService verify password]
+    USR2 --> DB
+    LOG --> JWT[JwtService create claims and sign]
+    JWT --> KEY[KeyStore or Secret HS256 or RSA]
+    LOG --> UOK2[200 OK with JWT]
+
+    U --> REQ[GET /bookings with Authorization Bearer JWT]
+    REQ --> SFC[SecurityFilterChain]
+    SFC --> JF[JwtAuthFilter extract and validate]
+    JF --> JWT2[JwtService verify signature and exp]
+    JWT2 --> KEY
+    JF --> SC[SecurityContext set Authentication]
+    SFC --> ADM[AccessDecision check role USER]
+    ADM --> BKC[BookingController]
+    BKC --> UOK3[200 OK]
+
+    JF --> E401[401 Unauthorized]
+    ADM --> E403[403 Forbidden]

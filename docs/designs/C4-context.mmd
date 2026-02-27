@@ -1,0 +1,37 @@
+%% C4 – System Context Diagram for Coworkly
+%% File: designs/C4-context.mmd
+
+flowchart TB
+%% Persons
+    U[("User\n(Member/Guest)")]
+    A[("Admin\n(Ops/Manager)")]
+
+%% System under design
+    subgraph S[Coworkly System]
+        API[("Coworkly API\nSpring Boot Monolith")]
+    end
+
+%% External systems
+    DB[["PostgreSQL\n(Relational DB)"]]
+    IDP[["Identity Provider\n(JWT – planned, OIDC later)"]]
+    MAIL[["Email Provider\n(SMTP) – future"]]
+    OBS[["Observability Stack\n(Actuator – planned, Grafana later)"]]
+
+%% Relationships
+    U -->|"Book desks/rooms,\nmanage bookings"| API
+    A -->|"Ops tasks,\nmanage resources"| API
+
+    API -->|JDBC| DB
+    API -->|"JWT – planned"| IDP
+    API -. "Email notifications – future" .-> MAIL
+    API -->|Metrics/health| OBS
+
+%% Color and style definitions
+    classDef person fill:#fbe3eb,stroke:#f28cb5,stroke-width:1px,color:#2b2b2b;
+    classDef system fill:#dfeaff,stroke:#7fa3f8,stroke-width:1px,color:#1c1c1c;
+    classDef external fill:#e5f9f0,stroke:#50b37f,stroke-width:1px,color:#1a1a1a;
+
+%% Assign classes
+    class U,A person
+    class S,API system
+    class DB,IDP,MAIL,OBS external
