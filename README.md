@@ -24,6 +24,7 @@ Clean monolith architecture, progressively extended with security, AWS integrati
 
 Coworkly allows users to browse available coworking resources, check time slot availability, and create bookings with idempotency support.
 The project follows considerated, documented architecture – each decision is recorded as an ADR in [`docs/decisions/`](docs/decisions/) and visualized as diagrams in [`docs/designs/`](docs/designs/).
+
 ---
 
 ## 🛠️ Tech Stack
