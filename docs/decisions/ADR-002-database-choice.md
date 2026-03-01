@@ -26,5 +26,4 @@ Initial schema design and migration (`V1__init.sql`) were verified through repos
 
 ## Links
 - [ERD — Booking Model](../designs/erd-booking.mmd)
-- [Migration V1__init.sql](https://github.com/KasiaKab/coworkly-api/blob/dev/src/main/resources/db/migration/V1__init.sql)
-- [BookingRepositoryTest.java](https://github.com/KasiaKab/coworkly-api/blob/dev/src/test/java/com/coworkly/repository/BookingRepositoryTest.java)
+- [Migration V1__init.sql](/src/main/resources/db/migration/V1__init.sql)
