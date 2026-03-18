@@ -7,6 +7,8 @@ import com.coworkly.api.mapper.ResourceMapper;
 import com.coworkly.api.mapper.TimeSlotMapper;
 import com.coworkly.domain.entity.Resource;
 import com.coworkly.domain.entity.TimeSlot;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
+@Tag(name = "Resources", description = "Operations for browsing coworking resources and checking availability")
 @Validated
 @RestController
 @RequiredArgsConstructor
@@ -24,6 +27,7 @@ public class ResourceController {
     private final ResourceService resourceService;
 
     // GET /resources — list all resources
+    @Operation(summary = "List all resources", description = "Returns a list of all available coworking resources.")
     @GetMapping("/resources")
     public List<ResourceDto> listResources() {
         List<Resource> resources = resourceService.listResources();
@@ -33,6 +37,7 @@ public class ResourceController {
     }
 
     // GET /resources/{id}/availability?date=YYYY-MM-DD — available slots for given day
+    @Operation(summary = "Get resource availability", description = "Returns available time slots for a given resource on a specific date.")
     @GetMapping("/resources/{resourceId}/availability")
     public List<AvailabilitySlotDto> getAvailability(
             @PathVariable("resourceId") Long resourceId,
